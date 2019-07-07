@@ -1,4 +1,10 @@
 //子函数部分 
+double str_doubtrans(char str[])
+{
+    double num_double=0;
+    num_double = atof(str);  //转换为浮点型值
+    return  num_double ;
+}
 void read_data(char *filename,int a)//读取txt文档 
 {
 	char temp[26];                                   
