@@ -21,39 +21,41 @@ int main(void) {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 	setinitmode(0, 0, 0);
-	initgraph(1520, 760);
+	initgraph(900, 760);
 	setbkcolor(EGERGB(0x0, 0x0, 0x0));
 	setfillcolor(EGERGB(220,220,220));//灰框 
-	bar(5, 5, 1515, 30);
-	bar(5,35,400,755);
+	bar(5, 5, 895, 65);
+	bar(5,70,400,755);
 	setfillcolor(EGERGB(0xff,0xff,0xff));//白框 
 	bar(100, 7, 200, 28);
 	bar(300, 7, 400, 28);
 	bar(500, 7, 600, 28);
 	bar(700, 7, 800, 28);
-	bar(900, 7, 1000, 28);
-	bar(1150, 7, 1250, 28);
-	bar(1350, 7, 1450, 28);
+	bar(100, 40, 200, 61);//换行 
+	bar(300, 40, 400, 61);
+	bar(500, 40, 600, 61);
+	bar(700, 40, 800, 61);
 	setfillcolor(EGERGB(175,238,238));//蓝框 
-	bar(1458,7,1510,28);
-	bar(18,39,95,60);
-	bar(108,39,185,60);
+	bar(810,7,885,28);
+	bar(18,75,95,101);
+	bar(108,75,185,101);
 	setfont(16, 0, "宋体");
 	setcolor(WHITE);
 	setbkmode(TRANSPARENT);
-	outtextxy(1230, 740, "Copytight 2019 GUAN.LI.LUO v0.0.1");
+	outtextxy(630, 740, "COPYRIGHT 2019 GUAN.LI.LUO V0.1.2");
 	setfont(18, 0, "宋体");
 	setcolor(BLACK);
 	outtextxy(20, 7, "读取文件");
 	outtextxy(220, 7, "孔径系数");
 	outtextxy(420,7, "最大孔径");
 	outtextxy(620, 7, "视场系数");
-	outtextxy(820, 7, "最大视场");
-	outtextxy(1020, 7, "无穷远物(1/2)");
-	outtextxy(1270, 7, "物的高度");
-	outtextxy(1466, 7, "清除");
-	outtextxy(20, 40, "计算结果");
-	outtextxy(110, 40, "清除结果");
+	outtextxy(812, 7, "清除参数");
+	outtextxy(20, 40, "最大视场");
+	outtextxy(220,40, "物的距离");
+	outtextxy(420,40, "物的高度");
+	outtextxy(620, 40, "透镜个数");
+	outtextxy(20, 80, "计算结果");
+	outtextxy(110, 80, "清除结果");
 	char str1[100]={0};
 	char str2[100]={0};
 	char str3[100]={0};
@@ -61,10 +63,14 @@ int main(void) {
 	char str5[100]={0};
 	char str6[100]={0};
 	char str7[100]={0};//定义输入存放数组 
-	int bz1,bz2,bz3,bz4,bz5,bz6,bz7;
+	char str8[100]={0};
+	int bz1,bz2,bz3,bz4,bz5,bz6,bz7,bz8;
 	int key=0,key1=0; 
-	bz1=0;bz1=0;bz2=0;bz3=0;bz4=0;bz5=0;bz6=0;bz7=0;
+	bz1=0;bz1=0;bz2=0;bz3=0;bz4=0;bz5=0;bz6=0;bz7=0;bz8=0;
 	int x,y;
+	setfont(118, 0, "黑体");
+	//setcolor(WHITE);
+	//outtextxy(420, 320, "假装有图");
 	mouse_msg msg = {0};
 	for ( ; is_run(); delay_fps(60))//判断鼠标按下特定区域 
 	{
@@ -72,6 +78,8 @@ int main(void) {
 		{
 			msg = getmouse();
 		}
+		setfont(16, 0, "宋体");
+		setcolor(BLACK);
 	 	mousepos(&x,&y);
     	if((x>100&&x<200)&&(y>7&&y<28)){
 	    	if(msg.is_down()==1){
@@ -116,54 +124,64 @@ int main(void) {
 				}  
 	    	}
     	} 
-    	else if((x>900&&x<1000)&&(y>7&&y<28)){
+    	else if((x>100&&x<200)&&(y>40&&y<61)){
 	    	if(msg.is_down()==1){
 	    		if(bz5==0){
 	    			inputbox_getline("最大视场", "请设定最大视场(输入正数即可)", str5, 100);
-		    	    outtextxy(910, 7, str5);
+		    	    outtextxy(110, 40, str5);
 		    	    m=-str_doubtrans(str5);
 	    			bz5=1;
 				}	    
 	    	}
     	} 
-    	else if((x>1150&&x<1250)&&(y>7&&y<28)){
+    	else if((x>300&&x<400)&&(y>40&&y<61)){
 	    	if(msg.is_down()==1){
 	    		if(bz6==0){
-	    			inputbox_getline("无穷远物", "请设定是否为无穷远物(1为无穷远物，2为有限物距)", str6, 100);
-		    	    outtextxy(1160, 7, str6);
+	    			inputbox_getline("物的距离", "请设定是否为无穷远物(1为无穷远物，2为有限物距)", str6, 100);
+		    	    outtextxy(310, 40, str6);
 		    	    c=(int)(str_doubtrans(str6));
 	    			bz6=1;
 				}
 	    	}
     	} 
-    	else if((x>1350&&x<1450)&&(y>7&&y<28)){
+    	else if((x>500&&x<600)&&(y>40&&y<61)){
 	    	if(msg.is_down()==1){
 	    		if(bz7==0){
 	    			inputbox_getline("物的高度", "请设定物的高度", str7, 100);
-		    	    outtextxy(1360, 7, str7);
+		    	    outtextxy(510, 40, str7);
 	    			bz7=1;
 				}	    
 	    	}
     	} 
-    	else if((x>1458&&x<1510)&&(y>7&&y<28)){
+    	else if((x>700&&x<800)&&(y>40&&y<61)){
+	    	if(msg.is_down()==1){
+	    		if(bz8==0){
+	    			inputbox_getline("透镜个数", "请设定透镜的个数", str8, 100);
+		    	    outtextxy(710, 40, str8);
+	    			bz8=1;
+				}	    
+	    	}
+    	} 
+    	else if((x>810&&x<885)&&(y>7&&y<28)){
 	    	if(msg.is_down()==1){
 	    		setfillcolor(EGERGB(0xff,0xff,0xff));
 	            bar(100, 7, 200, 28);
 	            bar(300, 7, 400, 28);
 	            bar(500, 7, 600, 28);
-               	bar(700, 7, 800, 28);
-             	bar(900, 7, 1000, 28);
-             	bar(1150, 7, 1250, 28);
-            	bar(1350, 7, 1450, 28);  
-				bz1=0;bz1=0;bz2=0;bz3=0;bz4=0;bz5=0;bz6=0;bz7=0;
+             	bar(700, 7, 800, 28);
+            	bar(100, 40, 200, 61);//换行 
+             	bar(300, 40, 400, 61);
+             	bar(500, 40, 600, 61);
+               	bar(700, 40, 800, 61);
+				bz1=0;bz1=0;bz2=0;bz3=0;bz4=0;bz5=0;bz6=0;bz7=0;bz8=0;
 				key1=0;
 	    	}
     	}
-    	else if((x>18&&x<95)&&(y>39&&y<60)){//计算结果 
+    	else if((x>18&&x<95)&&(y>75&&y<101)){//计算结果 
 	    	if(msg.is_down()==1){
 	    		if(key==0){
 	    			key=1;
-	    		    if(key1==0) outtextxy(80, 280, "请读取文件！");
+	    		    if(key1==0) outtextxy(80, 280, "请读取文件并输入参数！");
 	    		    else{
 	
 	//这一部分循环会出错				
@@ -218,63 +236,60 @@ int main(void) {
                  	sprintf(lp1s,"%le",lp1);
                  	
                  	setcolor(BLACK);
-                 	outtextxy(20, 80, "焦距");
-                    outtextxy(20, 100, "理想像距");
-                    outtextxy(20, 120, "像方主面位置lH'");
-                    outtextxy(20, 140, "理想像高y0'");
-                    outtextxy(20, 160, "0.7视场理想像高y0'");
-                    outtextxy(20, 180, "实际像距");
-                    outtextxy(20, 200, "0.7孔径实际像距");
-                    outtextxy(20, 220, "球差");
-                    outtextxy(20, 240, "0.7孔径球差");
-                    outtextxy(20, 260, "实际像高");
-                    outtextxy(20, 280, "0.7视场实际像高");
-                    outtextxy(20, 300, "全视场绝对畸变");
-                    outtextxy(20, 320, "全视场相对畸变");
-                    outtextxy(20, 340, "0.7视场绝对畸变");
-                    outtextxy(20, 360, "0.7视场相对畸变");
-                    outtextxy(20, 380, "子午场曲");
-                    outtextxy(20, 400, "弧矢场曲");
-                    outtextxy(20, 420, "像散");
-                    outtextxy(20, 440, "出瞳距");
+                 	outtextxy(20, 120, "焦距");
+                    outtextxy(20, 140, "理想像距");
+                    outtextxy(20, 160, "像方主面位置lH'");
+                    outtextxy(20, 180, "理想像高y0'");
+                    outtextxy(20, 200, "0.7视场理想像高y0'");
+                    outtextxy(20, 220, "实际像距");
+                    outtextxy(20, 240, "0.7孔径实际像距");
+                    outtextxy(20, 260, "球差");
+                    outtextxy(20, 280, "0.7孔径球差");
+                    outtextxy(20, 300, "实际像高");
+                    outtextxy(20, 320, "0.7视场实际像高");
+                    outtextxy(20, 340, "全视场绝对畸变");
+                    outtextxy(20, 360, "全视场相对畸变");
+                    outtextxy(20, 380, "0.7视场绝对畸变");
+                    outtextxy(20, 400, "0.7视场相对畸变");
+                    outtextxy(20, 420, "子午场曲");
+                    outtextxy(20, 440, "弧矢场曲");
+                    outtextxy(20, 460, "像散");
+                    outtextxy(20, 480, "出瞳距");
                     //
-                    outtextxy(200, 80, f1s);
-                    outtextxy(200, 100, l1s);
-                    outtextxy(200, 120, lh1s);
-                    outtextxy(200, 140, y0s);
-                    outtextxy(200, 160, y01s);
-                    outtextxy(200, 180, ls1s);
-                    outtextxy(200, 200, ls11s);
-                    outtextxy(200, 220, dLs);
-                    outtextxy(200, 240, dL1s);
-                    outtextxy(200, 260, yp1s);
-                    outtextxy(200, 280, yp11s);
-                    outtextxy(200, 300, dys);
-                    outtextxy(200, 320, dyy0s);
-                    outtextxy(200, 340, ypy01s);
-                    outtextxy(200, 360, ypyy01s);
-                    outtextxy(200, 380, xt1s);
-                    outtextxy(200, 400, xs1s);
-                    outtextxy(200, 420, xtxs1s);
-                    outtextxy(200, 440, lp1s);
-                    
-                    
-                    
+                    outtextxy(200, 120, f1s);
+                    outtextxy(200, 140, l1s);
+                    outtextxy(200, 160, lh1s);
+                    outtextxy(200, 180, y0s);
+                    outtextxy(200, 200, y01s);
+                    outtextxy(200, 220, ls1s);
+                    outtextxy(200, 240, ls11s);
+                    outtextxy(200, 260, dLs);
+                    outtextxy(200, 280, dL1s);
+                    outtextxy(200, 300, yp1s);
+                    outtextxy(200, 320, yp11s);
+                    outtextxy(200, 340, dys);
+                    outtextxy(200, 360, dyy0s);
+                    outtextxy(200, 380, ypy01s);
+                    outtextxy(200, 400, ypyy01s);
+                    outtextxy(200, 420, xt1s);
+                    outtextxy(200, 440, xs1s);
+                    outtextxy(200, 460, xtxs1s);
+                    outtextxy(200, 480, lp1s);
 
                     } 
                 }
 	    	}
     	}
-    	else if((x>108&&x<185)&&(y>39&&y<60)){
+    	else if((x>108&&x<185)&&(y>75&&y<101)){
 	    	if(msg.is_down()==1){
 	    		key=0;
 	    		setfillcolor(EGERGB(220,220,220));//灰框 
-            	bar(5,35,400,755);
+            	bar(5,70,400,755);
             	setfillcolor(EGERGB(175,238,238));//蓝框 
-            	bar(18,39,95,60);
-            	bar(108,39,185,60);
-            	outtextxy(20, 40, "计算结果");
-	            outtextxy(110, 40, "清除结果");
+            	bar(18,75,95,101);
+            	bar(108,75,185,101);
+            	outtextxy(20, 80, "计算结果");
+	            outtextxy(110, 80, "清除结果");
 	    	}
     	}
     }	
