@@ -1,11 +1,5 @@
 //子函数部分 
-double str_doubtrans(char str[])
-{
-    double num_double=0;
-    num_double = atof(str);  //转换为浮点型值
-    return  num_double ;
-}
-void read_data(char *filename,int a)//读取txt文档 
+void read_data(char *filename,int k)//读取txt文档 
 {
 	char temp[26];                                   
 	double r, n, d, Vd, s;
@@ -18,7 +12,7 @@ void read_data(char *filename,int a)//读取txt文档
         exit(1);  
     }  
         
-    for(i=0;i<a;i++){
+    for(i=0;i<k;i++){
     	
     	fscanf(fp,"%s%le%le%le%le%le",temp,&r,&n,&d,&Vd,&s);
     	save(temp,r,n,d,Vd,s);                //储存镜片参数 
@@ -41,8 +35,8 @@ void read_data(char *filename,int a)//读取txt文档
 }
 
 void save(char *temp,double r,double n,double d,double Vd,double s)//统计各个镜片参数 
-{
-	if(head==NULL) //统计第一个镜片 
+{	
+		if(head==NULL) //统计第一个镜片 
     {  
         head = new GLASS; 
 
@@ -922,6 +916,7 @@ double get_y0(int c)//计算理想像高done
 {	
 
 	double f1,y0;
+	
 	if(c==1){
 		f1=get_f1();
 		y0=-f1*tan(m*km/180*Pi);
@@ -960,24 +955,250 @@ double get_y0(int c)//计算理想像高done
 	} 
 	
 double get_Ks(int c)//计算慧差done 
-{	
+{
 	double ya1,yb1,Ks,yp1;
 	
 	kb=1;
 	ya1=get_yp1(c);
-	printf("ya1=%le\n",ya1);
+	//printf("ya1=%le\n",ya1);
 	kb=-1;
 	yb1=get_yp1(c);
-	printf("yb1=%le\n",yb1);
+	//printf("yb1=%le\n",yb1);
 	
 	kb=0;
 	yp1=get_yp1(c);
-	printf("yp1=%le\n",yp1);
+	//printf("yp1=%le\n",yp1);
 	
 	Ks=(ya1+yb1)/2-yp1;
 	
 	return Ks; 
 	
+}
+
+double get_yp1_c(char *filename,int k,int c)//计算C光实际像高
+{
+	
+	 double l1,yp1,U1,L1;
+	 
+	 
+	 l1=get_l1(c);
+	 
+	// printf("%le\n",l1);
+	 char t[26];
+	 strcpy(t,"c_");
+	 strcat(t,filename);
+	 //printf("%s\n",t);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	  
+	 read_data(t,k);
+	 
+	 get_head1(c);
+	 
+	
+	FACE *ptr1 = head1;  
+    FACE *ptr2 = NULL;  
+    while( NULL != ptr1->next )  
+    { 
+    
+    	
+    	
+        ptr2 = ptr1;  
+        ptr1 = ptr1->next;
+    }; 
+    
+    L1=ptr1->L1;
+    U1=ptr1->U1;
+	yp1=(L1-l1)*tan(U1/180*Pi);
+	
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	 
+	 read_data(filename,k);
+	return yp1;
+	 
+	 
+	 
+	 
 }	
 	
+double get_yp1_f(char *filename,int k,int c)//计算C光实际像高
+{
+	
+	 double l1,yp1,U1,L1;
+	 
+	 
+	 l1=get_l1(c);
+	 
+	 //printf("%le\n",l1);
+	 char t[26];
+	 strcpy(t,"f_");
+	 strcat(t,filename);
+	 //printf("%s\n",t);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	  
+	 read_data(t,k);
+	 
+	 get_head1(c);
+	 
+	
+	FACE *ptr1 = head1;  
+    FACE *ptr2 = NULL;  
+    while( NULL != ptr1->next )  
+    { 
+    
+    	
+    	
+        ptr2 = ptr1;  
+        ptr1 = ptr1->next;
+    }; 
+    
+    L1=ptr1->L1;
+    U1=ptr1->U1;
+	yp1=(L1-l1)*tan(U1/180*Pi);
+	
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	 
+	 read_data(filename,k);
+	return yp1;
+	 
+	 
+	 
+	 
+}	
 
+double get_l1_c(char *filename,int k,int c)//c光实际像距离；
+{
+	double l1;
+	char t[26];
+	 strcpy(t,"c_");
+	 strcat(t,filename);
+	 //printf("%s\n",t);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	  
+	 read_data(t,k);
+	 
+	 l1=get_l1(c);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	 
+	 read_data(filename,k);
+	 
+	 return l1;
+	 
+} 
+
+double get_ls1_c(char *filename,int k,int c)//c光实际像距离；
+{
+	double l1;
+	char t[26];
+	 strcpy(t,"c_");
+	 strcat(t,filename);
+	 //printf("%s\n",t);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	  
+	 read_data(t,k);
+	 
+	 l1=get_ls1(c);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	 
+	 read_data(filename,k);
+	 
+	 return l1;
+	 
+} 
+
+double get_l1_f(char *filename,int k,int c)//c光实际像距离；
+{
+	double l1;
+	char t[26];
+	 strcpy(t,"f_");
+	 strcat(t,filename);
+	 //printf("%s\n",t);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	  
+	 read_data(t,k);
+	 
+	 l1=get_l1(c);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	 
+	 read_data(filename,k);
+	 
+	 return l1;
+	 
+}
+
+double get_ls1_f(char *filename,int k,int c)//c光实际像距离；
+{
+	double l1;
+	char t[26];
+	 strcpy(t,"f_");
+	 strcat(t,filename);
+	 //printf("%s\n",t);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	  
+	 read_data(t,k);
+	 
+	 l1=get_ls1(c);
+	 
+	 head=NULL;
+	 head1=NULL;
+	 head2=NULL;
+	 head3=NULL;
+	 head4=NULL;
+	 
+	 read_data(filename,k);
+	 
+	 return l1;
+	 
+} 
