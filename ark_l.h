@@ -97,13 +97,15 @@ void get_head1(int c);
 void get_head2(int c);
 void get_head3(int c);
 void get_head4(int c);
-double get_f1();
-double get_l1();
-double get_ls1();
-double get_yp1();
-double get_xt1();
-double get_xs1();
-double get_lp1();
+double get_f1(); 
+double get_l1(int c);
+double get_ls1(int c);
+double get_yp1(int c);
+double get_xt1(int c);
+double get_xs1(int c);
+double get_lp1(int c);
+double get_y0(int c);
+double get_Ks(int c);
 
 
 //全局变量 
@@ -115,6 +117,10 @@ FACE3 *head4 = NULL;
 double a,ka;//孔阑半径
 
 double m,km;//视场
+
+double xg=26;//
+
+double kb=0;
  
 
 

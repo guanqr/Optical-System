@@ -6,20 +6,20 @@ int main(void) {
  	char filename[10];
  	
 	int i,k,c;
-	double f1,l1,lh1,y0,y01,ls1,ls11,dL,dL1,yp1,yp11,dy,dy1,xt1,xs1,lp1;
-	
-    
+	double cc1,cc2,cc3,cc4,cc5,cc6,cc7,cc8,cc9;
+
     //printf("请输入镜片数量：\n");
 	//scanf("%d",&k);
 	//system("CLS");
-	k=3;                              //调试时用
+	//strcpy(filename,"test.txt");
+	k=3;  
+//	a=10; ka=1;      
+	//m=-3; km=1 ;                       //调试时用
     /*if(c==2){
 		printf("请输入物高y：\n");
 		scanf("%le",&y);
 	}*/
-
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+xg=5;
 	setinitmode(0, 0, 0);
 	initgraph(900, 760);
 	setbkcolor(EGERGB(0x0, 0x0, 0x0));
@@ -42,28 +42,28 @@ int main(void) {
 	setfont(16, 0, "宋体");
 	setcolor(WHITE);
 	setbkmode(TRANSPARENT);
-	outtextxy(630, 740, "COPYRIGHT 2019 GUAN.LI.LUO V0.1.2");
+	outtextxy(630, 740, "COPYRIGHT 2019 GUAN.LI.LUO V0.1.3");
 	setfont(18, 0, "宋体");
 	setcolor(BLACK);
 	outtextxy(20, 7, "读取文件");
-	outtextxy(220, 7, "孔径系数");
-	outtextxy(420,7, "最大孔径");
-	outtextxy(620, 7, "视场系数");
+	outtextxy(220, 7, "透镜个数");
+	outtextxy(420,7, "入瞳直径");
+	outtextxy(620, 7, "孔径系数");
 	outtextxy(812, 7, "清除参数");
-	outtextxy(20, 40, "最大视场");
-	outtextxy(220,40, "物的距离");
-	outtextxy(420,40, "物的高度");
-	outtextxy(620, 40, "透镜个数");
+	outtextxy(20, 40, "视场角度");
+	outtextxy(220,40, "视场系数");
+	outtextxy(420,40, "物的距离");
+	outtextxy(620, 40, "物的高度");
 	outtextxy(20, 80, "计算结果");
 	outtextxy(110, 80, "清除结果");
-	char str1[100]={0};
-	char str2[100]={0};
-	char str3[100]={0};
-	char str4[100]={0};
-	char str5[100]={0};
-	char str6[100]={0};
-	char str7[100]={0};//定义输入存放数组 
-	char str8[100]={0};
+	char str1[100];
+	char str2[100];
+	char str3[100];
+	char str4[100];
+	char str5[100];
+	char str6[100];
+	char str7[100];//定义输入存放数组 
+	char str8[100];
 	int bz1,bz2,bz3,bz4,bz5,bz6,bz7,bz8;
 	int key=0,key1=0; 
 	bz1=0;bz1=0;bz2=0;bz3=0;bz4=0;bz5=0;bz6=0;bz7=0;bz8=0;
@@ -89,7 +89,6 @@ int main(void) {
 		    	    key1=1;
 		    	    strcpy(filename, str1);
 		    	    read_data(filename,k);
-   
 		    	    bz1=1;
 				}	    
 	    	}
@@ -97,9 +96,9 @@ int main(void) {
     	else if((x>300&&x<400)&&(y>7&&y<28)){
 	    	if(msg.is_down()==1){
 	    		if(bz2==0){
-	    			inputbox_getline("孔径系数", "请设定孔径系数", str2, 100);
+	    			inputbox_getline("透镜个数", "请设定透镜的个数", str2, 100);
 		    	    outtextxy(310, 7, str2);
-		    	    ka=str_doubtrans(str2);//+++++++++++++++++++++++++++++++++++
+		    	    //k=str_doubtrans(str2);
 					bz2=1;
 				} 
 	    	}
@@ -107,7 +106,7 @@ int main(void) {
     	else if((x>500&&x<600)&&(y>7&&y<28)){
 	    	if(msg.is_down()==1){
 	    		if(bz3==0){
-	    			inputbox_getline("最大孔径", "请设定最大孔径", str3, 100);
+	    			inputbox_getline("入瞳直径", "请设定入瞳直径", str3, 100);
 		        	outtextxy(510, 7, str3);
 		        	a=str_doubtrans(str3);
 	    			bz3=1;
@@ -117,9 +116,9 @@ int main(void) {
     	else if((x>700&&x<800)&&(y>7&&y<28)){
 	    	if(msg.is_down()==1){
 	    		if(bz4==0){
-	    			inputbox_getline("视场系数", "请设定视场系数", str4, 100);
+	    			inputbox_getline("孔径系数", "请设定孔径系数", str4, 100);
 		        	outtextxy(710, 7, str4);
-		        	km=str_doubtrans(str4);
+		        	ka=str_doubtrans(str4);
 	    			bz4=1;
 				}  
 	    	}
@@ -127,7 +126,7 @@ int main(void) {
     	else if((x>100&&x<200)&&(y>40&&y<61)){
 	    	if(msg.is_down()==1){
 	    		if(bz5==0){
-	    			inputbox_getline("最大视场", "请设定最大视场(输入正数即可)", str5, 100);
+	    			inputbox_getline("视场角度", "请设定最大视场角度(输入正数即可)", str5, 100);
 		    	    outtextxy(110, 40, str5);
 		    	    m=-str_doubtrans(str5);
 	    			bz5=1;
@@ -137,9 +136,9 @@ int main(void) {
     	else if((x>300&&x<400)&&(y>40&&y<61)){
 	    	if(msg.is_down()==1){
 	    		if(bz6==0){
-	    			inputbox_getline("物的距离", "请设定是否为无穷远物(1为无穷远物，2为有限物距)", str6, 100);
+	    			inputbox_getline("视场系数", "请设定视场系数", str6, 100);
 		    	    outtextxy(310, 40, str6);
-		    	    c=(int)(str_doubtrans(str6));
+		    	    km=str_doubtrans(str6);
 	    			bz6=1;
 				}
 	    	}
@@ -147,8 +146,9 @@ int main(void) {
     	else if((x>500&&x<600)&&(y>40&&y<61)){
 	    	if(msg.is_down()==1){
 	    		if(bz7==0){
-	    			inputbox_getline("物的高度", "请设定物的高度", str7, 100);
+	    			inputbox_getline("物的距离", "请设定是否为无穷远物(1为无穷远物，2为有限物距)", str7, 100);
 		    	    outtextxy(510, 40, str7);
+		    	    c=(int)(str_doubtrans(str7));
 	    			bz7=1;
 				}	    
 	    	}
@@ -156,8 +156,9 @@ int main(void) {
     	else if((x>700&&x<800)&&(y>40&&y<61)){
 	    	if(msg.is_down()==1){
 	    		if(bz8==0){
-	    			inputbox_getline("透镜个数", "请设定透镜的个数", str8, 100);
+	    			inputbox_getline("物的高度", "请设定物的高度", str8, 100);
 		    	    outtextxy(710, 40, str8);
+		    	    //xg=str_doubtrans(str8);
 	    			bz8=1;
 				}	    
 	    	}
@@ -185,7 +186,7 @@ int main(void) {
 	    		    else{
 	
 	//这一部分循环会出错				
-	get_head1(c);
+	/*get_head1(c);
     get_head2(c);
    	get_head3(c);
    	get_head4(c);    //获取四大光线像物距信息 
@@ -208,14 +209,58 @@ int main(void) {
 	dy=yp1-y0;
 	xt1=get_xt1();
 	xs1=get_xs1();
-	lp1=get_lp1();
-					
+	lp1=get_lp1();*/
+	
+	                cc1=get_ls1(c)-get_l1(c);
+			        cc2=get_Ks(c); 
+		         	cc3=get_yp1(c)-get_y0(c);
+		        	cc4=get_xt1(c);
+		         	cc5=get_xs1(c);
+		        	cc6=get_xt1(c)-get_xs1(c);
+		        	cc7=get_f1();
+		        	cc8=get_l1(c)-get_f1();
+		         	cc9=get_lp1(c);
+					char cs1[200],cs2[200],cs3[200],cs4[200],cs5[200],cs6[200],
+					      cs7[200],cs8[200],cs9[200];
 					 
-                   	char f1s[200],l1s[200],lh1s[200],y0s[200],y01s[200],ls1s[200],
+                   	/*char f1s[200],l1s[200],lh1s[200],y0s[200],y01s[200],ls1s[200],
 					      ls11s[200],dLs[200],dL1s[200],yp1s[200],yp11s[200],dys[200],
-						  dyy0s[200],ypy01s[200],ypyy01s[200],xt1s[200],xs1s[200],xtxs1s[200],lp1s[200];
-		
-                 	sprintf(f1s,"%le",f1);
+						  dyy0s[200],ypy01s[200],ypyy01s[200],xt1s[200],xs1s[200],xtxs1s[200],lp1s[200];*/
+		            sprintf(cs1,"%le",cc1);
+                 	sprintf(cs2,"%le",cc2);
+                 	sprintf(cs3,"%le",cc3);
+                 	sprintf(cs4,"%le",cc4);
+                 	sprintf(cs5,"%le",cc5);
+                 	sprintf(cs6,"%le",cc6);
+                 	sprintf(cs7,"%le",cc7);
+                 	sprintf(cs8,"%le",cc8);
+                 	sprintf(cs9,"%le",cc9);
+                    setcolor(BLACK);
+                    setfont(18, 0, "宋体");
+                 	outtextxy(20, 120, "球差");
+                    outtextxy(20, 140, "子午慧差");
+                    outtextxy(20, 160, "畸变");
+                    outtextxy(20, 180, "子午场曲");
+                    outtextxy(20, 200, "弧矢场曲");
+                    outtextxy(20, 220, "像散");
+                    outtextxy(20, 240, "焦距");
+                    outtextxy(20, 260, "主点位置");
+                    outtextxy(20, 280, "出瞳距离");
+                   
+                    //
+                    outtextxy(200, 120, cs1);
+                    outtextxy(200, 140, cs2);
+                    outtextxy(200, 160, cs3);
+                    outtextxy(200, 180, cs4);
+                    outtextxy(200, 200, cs5);
+                    outtextxy(200, 220, cs6);
+                    outtextxy(200, 240, cs7);
+                    outtextxy(200, 260, cs8);
+                    outtextxy(200, 280, cs9);
+                   
+                 	
+		            
+                 /*	sprintf(f1s,"%le",f1);
                  	sprintf(l1s,"%le",l1);
                  	sprintf(lh1s,"%le",lh1);
                  	sprintf(y0s,"%le",y0);
@@ -274,7 +319,7 @@ int main(void) {
                     outtextxy(200, 420, xt1s);
                     outtextxy(200, 440, xs1s);
                     outtextxy(200, 460, xtxs1s);
-                    outtextxy(200, 480, lp1s);
+                    outtextxy(200, 480, lp1s);*/
 
                     } 
                 }
@@ -288,6 +333,7 @@ int main(void) {
             	setfillcolor(EGERGB(175,238,238));//蓝框 
             	bar(18,75,95,101);
             	bar(108,75,185,101);
+            	setfont(18, 0, "宋体");
             	outtextxy(20, 80, "计算结果");
 	            outtextxy(110, 80, "清除结果");
 	    	}

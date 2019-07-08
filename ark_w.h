@@ -383,18 +383,18 @@ void xs_calculat(GLASS *si)
 	//printf("The m is %le\n",f->I);
 	y=(g->n*cos(f->I1/180*Pi)-f->n1*cos(f->I/180*Pi))/g->r;
 	//printf("The a is %le\n",y);
-	if(f->t==1.0e15){
+/*	if(f->t==1.0e15){
 		c=y;
 		//printf("The c is %le\n",c);
 		k=y;
 		//printf("The k is %le\n",k);	
 	}
-	else{
+	else{*/
 		c=f->n1*cos(f->I/180*Pi)*cos(f->I/180*Pi)/f->t+y;
 		//printf("The c is %le\n",c);
 		k=f->n1/f->s+y;
 		//printf("The k is %le\n",k);
-	}
+	
 	
 	t1=g->n*cos(f->I1/180*Pi)*cos(f->I1/180*Pi)/c;
 	//printf("The t1 is %le\n",t1);
@@ -583,7 +583,7 @@ void calculat1_u1l1(GLASS *si)//计算第一近轴光线
 	
 }
 
-void get_head1(int c)//得到head4即轴外点实际光线各像物距数据 
+void get_head1(int c)//得到head1即轴外点实际光线各像物距数据 
 {
 	char si[26];
 	FACE *y;
@@ -593,17 +593,19 @@ void get_head1(int c)//得到head4即轴外点实际光线各像物距数据
    	
    	
    	U=m*km;
-   	L=0;
    	t=1.0e15;
 	
-	//L=ka*a/tan(U);
-	;}
+	L=kb*ka*a/tan(U/180*Pi);
+	}
    	
 	else{
-	L=500;
-	U=atan((km*26)/-L)/Pi*180; 
-	t=(head->r*sin((head1->U+head1->I)/180*Pi)-26)/sin(head1->U/180*Pi);
 	
+	U=-atan((km*xg+ka*kb*a)/head->d)/Pi*180;
+	//printf("U is %le\n",U);
+	L=-ka*kb*a/((km*xg+ka*kb*a)/head->d);
+	//printf("L is %le\n",L); 
+	//t=(head->r*sin((head1->U+head1->I)/180*Pi)+xg)/sin(head1->U/180*Pi);
+	t=-sqrt(xg*xg+head->d*head->d); 
 	} 
 	
 	
@@ -630,6 +632,7 @@ void get_head2(int c)//得到head2即第二近轴光线各像物距数据
 	char si[26];
    	strcpy(si,"a1");
    	double l,u; 
+   	
     if(c==1){
     
    	l=0;
@@ -637,7 +640,9 @@ void get_head2(int c)//得到head2即第二近轴光线各像物距数据
 	}
 	else{
 	l=0;
-	u=sin(atan(-26/500));
+
+	u=km*-xg/head->d;
+
 	
 	}
 	double n1=1;          		//设置初值
@@ -670,8 +675,8 @@ void get_head3(int c)//得到head3即第一近轴光线各像物距数据
 	  
 	else{
 		
-	l=-500;
-	u=sin(-atan(a/500));
+	l=-head->d;
+	u=sin(-atan(a/head->d));
 		
 		
 	} 
@@ -702,8 +707,8 @@ void get_head4(int c)//得到head4即轴上点实际光线各像物距数据
    	U=0; }
    	else{
    		
-   	L=-500;
-   	U=asin(ka*sin(atan(a/500)))/Pi*180; 
+   	L=-head->d;
+   	U=asin(ka*sin(atan(a/head->d)))/Pi*180; 
    	}
    	
 	double n1=1;          		//设置初值
@@ -723,10 +728,11 @@ void get_head4(int c)//得到head4即轴上点实际光线各像物距数据
     };
 } 
 
-double get_f1()//获取焦距f1 
+double get_f1()//获取焦距f1 done
 {
 	
-	double f1; 
+	double f1;
+	get_head3(1);
 	f1=head3->l1;
 	FACE2 *ptr1 = head3->next;  
     FACE2 *ptr2 = NULL;  
@@ -742,9 +748,11 @@ double get_f1()//获取焦距f1
     return f1;
 }
 
-double get_l1()//理想像距l’（近轴像位置）
+double get_l1(int c)//理想像距l’（近轴像位置）done
 {
 	double l1;
+	
+	get_head3(c); 
 	
 	FACE2 *ptr1 = head3;  
     FACE2 *ptr2 = NULL;  
@@ -762,10 +770,10 @@ double get_l1()//理想像距l’（近轴像位置）
     return l1;
 }
 
-double get_ls1()//实际像位置
+double get_ls1(int c)//实际像位置done
 {
 	double ls1;
-	
+	get_head4(c);
 	FACE3 *ptr1 = head4;  
     FACE3 *ptr2 = NULL;  
     while( NULL != ptr1->next )  
@@ -782,11 +790,13 @@ double get_ls1()//实际像位置
     return ls1;
 }
 
-double get_yp1()//实际像高 
+double get_yp1(int c)//实际像高done
 {
 	double l1,yp1,L1,U1;
 	
-	l1=get_l1();
+	l1=get_l1(c);
+	
+	get_head1(c);
 	 
 	
 	FACE *ptr1 = head1;  
@@ -810,9 +820,12 @@ double get_yp1()//实际像高
    
 }
 
-double get_xt1()//子午场曲计算 
+double get_xt1(int c)//子午场曲计算 done
 {
 	double xt1,lt1,l1;
+	
+	get_head1(c);
+	 
 	
 	GLASS *ptr1 = head;  
     GLASS *ptr2 = NULL;  
@@ -835,7 +848,7 @@ double get_xt1()//子午场曲计算
     }; 
     
     lt1= ptr3->t1*cos(ptr3->U1/180*Pi)+ptr3->x;
-    l1=get_l1();
+    l1=get_l1(c);
 	xt1= lt1-l1;
 	
 	return xt1;
@@ -844,9 +857,11 @@ double get_xt1()//子午场曲计算
 	
 }
 
-double get_xs1()//弧矢场曲计算 
+double get_xs1(int c)//弧矢场曲计算 done
 {
 	double xs1,ls1,l1;
+	
+	get_head1(c);
 	
 	GLASS *ptr1 = head;  
     GLASS *ptr2 = NULL;  
@@ -869,7 +884,7 @@ double get_xs1()//弧矢场曲计算
     }; 
     
     ls1= ptr3->s1*cos(ptr3->U1/180*Pi)+ptr3->x;
-    l1=get_l1();
+    l1=get_l1(c);
 	xs1= ls1-l1;
 	
 	return xs1;
@@ -878,11 +893,11 @@ double get_xs1()//弧矢场曲计算
 	
 }
 
-double get_lp1()//出瞳距计算 
+double get_lp1(int c)//出瞳距计算 done
 {
 	double lp1;
 	
-
+	get_head2(c);
     
     FACE1 *ptr3 = head2;  
     FACE1 *ptr4 = NULL;  
@@ -902,4 +917,67 @@ double get_lp1()//出瞳距计算
     
 	
 }
+
+double get_y0(int c)//计算理想像高done
+{	
+
+	double f1,y0;
+	if(c==1){
+		f1=get_f1();
+		y0=-f1*tan(m*km/180*Pi);
+		
+	}
+	else{
+		get_head3(c);
+		get_head2(c);
+		
+	FACE2 *ptr1 = head3;  
+    FACE2 *ptr2 = NULL;  
+    while( NULL != ptr1->next )  
+    { 
+    
+    	
+    	
+        ptr2 = ptr1;  
+        ptr1 = ptr1->next;
+    }; 
+		
+	FACE1 *ptr3 = head2;  
+    FACE1 *ptr4 = NULL;  
+    while( NULL != ptr3->next )  
+    { 
+    
+    	
+    	
+        ptr4 = ptr3;  
+        ptr3 = ptr3->next;
+    }; 
+		
+	y0=	(ptr3->l1-ptr1->l1)*ptr3->u1;
+	
+	}
+	return y0;
+	} 
+	
+double get_Ks(int c)//计算慧差done 
+{	
+	double ya1,yb1,Ks,yp1;
+	
+	kb=1;
+	ya1=get_yp1(c);
+	printf("ya1=%le\n",ya1);
+	kb=-1;
+	yb1=get_yp1(c);
+	printf("yb1=%le\n",yb1);
+	
+	kb=0;
+	yp1=get_yp1(c);
+	printf("yp1=%le\n",yp1);
+	
+	Ks=(ya1+yb1)/2-yp1;
+	
+	return Ks; 
+	
+}	
+	
 
