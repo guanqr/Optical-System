@@ -77,9 +77,8 @@ struct FACE3//储存轴上点边缘光线
 
 
 //函数声明
-void read_data(char *filename,int a);
-void save(char *temp,double r,double n,double d,double Vd,double s);
-GLASS *Search(char *current);
+void read_data(char *filename);
+void save(char *temp,double r,double n,double d,double Vd,double s);GLASS *Search(char *current);
 FACE *Search1(char *current);
 FACE1 *Search2(char *current);
 FACE2 *Search3(char *current);
@@ -106,6 +105,14 @@ double get_xs1(int c);
 double get_lp1(int c);
 double get_y0(int c);
 double get_Ks(int c);
+double get_yp1_c(char *filename,int a,int c);
+double get_yp1_f(char *filename,int k,int c);
+double get_l1_c(char *filename,int k,int c);
+double get_l1_f(char *filename,int k,int c);
+double get_ls1_c(char *filename,int k,int c);
+double get_ls1_f(char *filename,int k,int c);
+char *GetFilename(char *p);
+void replace_string(char * source_str,char * targ_str,char *val);
 
 
 //全局变量 
